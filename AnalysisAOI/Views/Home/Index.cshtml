@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+
+    <script src="~/Scripts/ajax.googleapis.comajaxlibsjqueryui1.12.1jquery-ui.min.js"></script>
+    <script src="~/Scripts/ajaxlibsjquery3.2.1.js"></script>
+    <script src="~/Scripts/cdnjs.cloudflare.comajaxlibsbootstrap-select1.12.2jsbootstrap-select.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.intellisense.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+
+</head>
+
+
+<style>
+
+    .Rows {
+        display: flex;
+        align-items: center;
+        padding: 1%;
+        margin: 1%;
+    }
+
+    .b {
+        width: 35%;
+        border: 1px dashed black;
+        padding: 1%;
+        margin: 4%;
+    }
+</style>
+
+
+
+<h2>Статистика работы монтажников SMT и AOI</h2>
+
+
+<div class="b">    
+        
+        <div class="Rows">
+            <div>
+                <p>Укажите дату</p>
+                ОТ
+                <input type="date" id="date_st">
+                <span></span>
+                <input type="time" id="time_st">
+            </div>
+        </div>
+
+
+        <div class="Rows">
+            <div>
+                ДО
+                <input type="date" id="date_end">
+                <span></span>
+                <input type="time" id="time_end">
+                <p class="btn btn-default" id="OK"> Сформировать Отчёт </p>
+            </div>
+        </div>    
+</div>
+
+
+<div id="Table">
+
+
+</div>
+
+
+<script >
+
+    $(document).ready(function () {
+        var d = new Date();
+        $("#date_st").val(d.toISOString().substring(0, 10));
+        $("#time_st").val('08:00')
+
+        d.setDate(d.getDate() + 1);
+
+        $("#date_end").val(d.toISOString().substring(0, 10));
+        $("#time_end").val('00:00');
+
+    });
+
+    $("#OK").click(function () {
+        $("#Table").html('<p style="background-color:gray; font-size: 25px; width: 50%"> Подождите пожалуйста идёт загрузка данных </p>');
+        $(this).css('pointer-events', 'none');
+          $.ajax({
+                         url: '@Url.Action("GetData", "Home")',
+                         dataType: "html",
+                             data: {                                
+                                 date_st: $("#date_st").val() ,
+                                 date_end: $("#date_end").val(),
+                                 time_st: $("#time_st").val(),
+                                 time_end: $("#time_end").val(),
+
+                             },
+                             success: function (data) {
+                                 $("#Table").html(data);
+                                 $("#OK").css('pointer-events', 'auto');
+                         },
+                         error: function (xhr, status, error) {
+                             alert(xhr);
+                             alert(status);
+                             alert(error);
+                         }
+                      })
+    });
+
+</script>

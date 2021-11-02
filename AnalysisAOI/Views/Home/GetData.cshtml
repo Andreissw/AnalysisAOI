@@ -1,0 +1,235 @@
+﻿@model AnalysisAOI.ClassFolder.AOIInfo
+
+
+<div>
+    @*====================================================================================*@
+    @*Общая инфо о АОИ*@
+    <div style="display:flex; align-self:flex-start">
+        @if (Model.AOIPassCount != 0)
+        {
+            <table >
+                <tr>
+                    <th colspan="3">Общая статистика AOI</th>
+                </tr>
+                <tr>
+                    <th>Кол-во успешных АОИ</th>
+                    <th>Кол-во ремонтов FAS от АОИ</th>
+                    <th>Процент</th>
+                </tr>
+
+                <tr>
+                    <td>@Html.DisplayFor(x => Model.AOIPassCount)</td>
+                    <td>@Html.DisplayFor(x => Model.RemCount)</td>
+                    <td>@Html.DisplayFor(x => Model.SPY)</td>
+                </tr>
+            </table>
+        }
+
+        @*====================================================================================*@
+        @*Общая инфо о АОИ по линиям*@
+
+        @if (Model.LineSPY.Count != 0)
+        {
+            <table >
+                <tr>
+                    <th colspan="4">Статистика AOI по линиям</th>
+                </tr>
+                <tr>
+                    <th>Линия</th>
+                    <th>Кол-во успешных АОИ-</th>
+                    <th>Кол-во ремонтов FAS от АОИ</th>
+                    <th>Процент</th>
+                </tr>
+
+                @foreach (var item in Model.LineSPY)
+                {                   
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.LineName)</td>
+                        <td>@Html.DisplayFor(x => item.CountAOI)</td>
+                        <td>@Html.DisplayFor(x => item.CountRem)</td>
+                        <td>@Html.DisplayFor(x => item.SPY)</td>
+                    </tr>
+                }
+
+            </table>
+        }
+    </div>
+    @*====================================================================================*@
+    @*Данные по дефектам*@
+    <div style="display:flex; align-self:flex-start">
+        @if (Model.TopDefects.Count != 0)
+        {
+            <table>
+                <tr>
+                    <th colspan="3">Статистика по дефектам ремонта</th>
+                </tr>
+                <tr>
+                    <th>Линия</th>
+                    <th>Дефект</th>
+                    <th>Кол-во</th>
+                </tr>
+
+                @foreach (var item in Model.TopDefects)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.Line)</td>
+                        <td>@Html.DisplayFor(x => item.DefectCode)</td>
+                        <td>@Html.DisplayFor(x => item.Count)</td>
+                    </tr>
+                }
+
+            </table>
+        }
+        @*====================================================================================*@
+        @*Данные по код ремонта*@
+
+        @if (Model.TopRepair.Count != 0)
+        {
+            <table>
+                <tr>
+                    <th colspan="3">Статистика по кодам ремонта</th>
+                </tr>
+                <tr>
+                    <th>Линия</th>
+                    <th>КодРемонта</th>
+                    <th>Кол-во</th>
+                </tr>
+
+                @foreach (var item in Model.TopRepair)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.Line)</td>
+                        <td>@Html.DisplayFor(x => item.RepairCode)</td>
+                        <td>@Html.DisplayFor(x => item.Count)</td>
+                    </tr>
+                }
+
+            </table>
+        }
+
+        @*====================================================================================*@
+        @*Данные по код ремонта*@
+
+        @if (Model.TopCIR.Count != 0)
+        {
+            <table>
+                <tr>
+                    <th colspan="3">Статистика по позициям ремонта</th>
+                </tr>
+                <tr>
+                    <th>Линия</th>
+                    <th>Позиция</th>
+                    <th>Кол-во</th>
+                </tr>
+
+                @foreach (var item in Model.TopCIR)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.Line)</td>
+                        <td>@Html.DisplayFor(x => item.CIR)</td>
+                        <td>@Html.DisplayFor(x => item.Count)</td>
+                    </tr>
+                }
+
+            </table>
+        }
+        </div>
+        @*====================================================================================*@
+        @*Данные по код ремонта и дефекта*@
+        <div style="display:flex; align-self:flex-start">
+        @if (Model.TopCIRDefects.Count != 0)
+        {
+            <table>
+                <tr>
+                    <th colspan="4">Статистика по позициям ремонта</th>
+                </tr>
+                <tr>
+                    <th>Линия</th>
+                    <th>Позиция</th>
+                    <th>Дефект</th>
+                    <th>Кол-во</th>
+                </tr>
+
+                @foreach (var item in Model.TopCIRDefects)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.Line)</td>
+                        <td>@Html.DisplayFor(x => item.CIR)</td>
+                        <td>@Html.DisplayFor(x => item.DefectCode)</td>
+                        <td>@Html.DisplayFor(x => item.Count)</td>
+                    </tr>
+                }
+
+            </table>
+        }
+
+        @*====================================================================================*@
+        @*Данные по код ремонта и дефекта и ремонта*@
+
+        @if (Model.TopCirDefectsRepair.Count != 0)
+        {
+            <table>
+                <tr>
+                    <th colspan="5">Статистика по позициям ремонта</th>
+                </tr>
+                <tr>
+                    <th>Линия</th>
+                    <th>Позиция</th>
+                    <th>Дефект</th>
+                    <th>КодРемонта</th>
+                    <th>Кол-во</th>
+                </tr>
+
+                @foreach (var item in Model.TopCirDefectsRepair)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.Line)</td>
+                        <td>@Html.DisplayFor(x => item.CIR)</td>
+                        <td>@Html.DisplayFor(x => item.DefectCode)</td>
+                        <td>@Html.DisplayFor(x => item.RepairCode)</td>
+                        <td>@Html.DisplayFor(x => item.Count)</td>
+                    </tr>
+                }
+
+            </table>
+        }
+
+    </div>
+</div>
+
+<style>
+
+    th {
+        background-color: yellow;
+    }
+    /*  table {
+
+    }*/
+
+    table {
+        background-color: white;
+        font-size: 12px;
+        margin: 10px;
+        /*overflow: hidden;*/
+        table-layout: auto;
+        width: 100%;
+    }
+
+    tr {
+        border: 1px solid black;
+        padding: 3px;
+    }
+
+    td {
+        border: 1px solid black;
+        padding: 1%;
+        text-align: center;
+        width:auto; 
+        
+    }
+
+    th {
+        text-align: center;
+        padding: 5px;
+    }
+</style>

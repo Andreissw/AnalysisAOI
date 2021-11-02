@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище FASModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="M_Repair_Table">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Barcode" Type="nvarchar" MaxLength="50" />
+          <Property Name="RapairDate" Type="datetime" />
+          <Property Name="Repairer" Type="nvarchar" MaxLength="50" />
+          <Property Name="Repair location" Type="nvarchar" MaxLength="50" />
+          <Property Name="Repair_Station_ID" Type="smallint" />
+          <Property Name="RepairCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="Position" Type="nvarchar" MaxLength="35" />
+          <Property Name="DefectCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="GeneratorCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="isUnitOK" Type="bit" />
+          <Property Name="ErrorCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="ModelID" Type="smallint" />
+          <Property Name="Scrap" Type="bit" />
+          <Property Name="UserID" Type="smallint" />
+        </EntityType>
+        <EntityContainer Name="Хранилище FASModelContainer">
+          <EntitySet Name="M_Repair_Table" EntityType="Self.M_Repair_Table" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FASModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="M_Repair_Table">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Barcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RapairDate" Type="DateTime" Precision="3" />
+          <Property Name="Repairer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Repair_location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Repair_Station_ID" Type="Int16" />
+          <Property Name="RepairCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="DefectCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="GeneratorCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="isUnitOK" Type="Boolean" />
+          <Property Name="ErrorCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ModelID" Type="Int16" />
+          <Property Name="Scrap" Type="Boolean" />
+          <Property Name="UserID" Type="Int16" />
+        </EntityType>
+        <EntityContainer Name="FASEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="M_Repair_Table" EntityType="Self.M_Repair_Table" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище FASModelContainer" CdmEntityContainer="FASEntities">
+          <EntitySetMapping Name="M_Repair_Table">
+            <EntityTypeMapping TypeName="FASModel.M_Repair_Table">
+              <MappingFragment StoreEntitySet="M_Repair_Table">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="RapairDate" ColumnName="RapairDate" />
+                <ScalarProperty Name="Repairer" ColumnName="Repairer" />
+                <ScalarProperty Name="Repair_location" ColumnName="Repair location" />
+                <ScalarProperty Name="Repair_Station_ID" ColumnName="Repair_Station_ID" />
+                <ScalarProperty Name="RepairCode" ColumnName="RepairCode" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="DefectCode" ColumnName="DefectCode" />
+                <ScalarProperty Name="GeneratorCode" ColumnName="GeneratorCode" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="isUnitOK" ColumnName="isUnitOK" />
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+                <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+                <ScalarProperty Name="Scrap" ColumnName="Scrap" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

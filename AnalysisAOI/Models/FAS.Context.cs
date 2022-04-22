@@ -26,5 +26,8 @@ namespace AnalysisAOI.Models
         }
     
         public virtual DbSet<M_Repair_Table> M_Repair_Table { get; set; }
+        public virtual DbSet<FAS_Models> FAS_Models { get; set; }
+        public virtual DbSet<AOI_Statistics> AOI_Statistics { get; set; }
+        public virtual DbSet<EP_Email> EP_Email { get; set; }
     }
 }

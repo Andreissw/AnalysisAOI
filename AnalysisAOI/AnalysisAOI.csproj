@@ -164,11 +164,28 @@
     <Compile Include="ClassFolder\AOIFolder\AOIInfo.cs" />
     <Compile Include="ClassFolder\AOIFolder\LineSPY.cs" />
     <Compile Include="ClassFolder\TimesOracle.cs" />
+    <Compile Include="Class\AOIResult.cs" />
+    <Compile Include="Class\Inspection\AOI.cs" />
+    <Compile Include="Class\Inspection\Interface\FalseAOI.cs" />
+    <Compile Include="Class\Inspection\Interface\IQuery.cs" />
+    <Compile Include="Class\Inspection\Interface\SuccessAOI.cs" />
+    <Compile Include="Class\Inspection\Interface\VerifAOI.cs" />
+    <Compile Include="Class\Inspection\Line\DataLine.cs" />
+    <Compile Include="Class\Inspection\Line\Statistics.cs" />
+    <Compile Include="Class\Inspection\Line\TOP.cs" />
+    <Compile Include="Class\Message.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MonitorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ClassFolder\Info.cs" />
+    <Compile Include="Models\AOI_Statistics.cs">
+      <DependentUpon>FAS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EP_Email.cs">
+      <DependentUpon>FAS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FAS.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -184,10 +201,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FAS.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\FAS_Models.cs">
+      <DependentUpon>FAS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\M_Repair_Table.cs">
       <DependentUpon>FAS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Omron.cs" />
+    <Compile Include="Models\Base.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -250,9 +270,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Indexx.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\GetData.cshtml" />
+    <Content Include="Views\Monitor\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

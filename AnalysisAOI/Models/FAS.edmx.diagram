@@ -6,6 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="3b0556c8c6b14181b10f668317e41162" Name="Diagram1">
         <EntityTypeShape EntityType="FASModel.M_Repair_Table" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FASModel.FAS_Models" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="FASModel.AOI_Statistics" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="FASModel.EP_Email" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

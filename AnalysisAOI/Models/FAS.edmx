@@ -5,6 +5,38 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище FASModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AOI_Statistics">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EP_Email">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="200" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="NameAdress" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="FAS_Models">
+          <Key>
+            <PropertyRef Name="ModelID" />
+          </Key>
+          <Property Name="ModelID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModelTypeID" Type="tinyint" Nullable="false" />
+          <Property Name="DelaySetting" Type="nvarchar" MaxLength="150" />
+          <Property Name="TopMask" Type="nvarchar" MaxLength="100" />
+          <Property Name="BotMask" Type="nvarchar" MaxLength="15" />
+          <Property Name="lenHDCP" Type="smallint" />
+          <Property Name="ChipCode" Type="smallint" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="IDQuality" Type="int" />
+        </EntityType>
         <EntityType Name="M_Repair_Table">
           <Key>
             <PropertyRef Name="id" />
@@ -25,8 +57,12 @@
           <Property Name="ModelID" Type="smallint" />
           <Property Name="Scrap" Type="bit" />
           <Property Name="UserID" Type="smallint" />
+          <Property Name="LOTID" Type="int" />
         </EntityType>
         <EntityContainer Name="Хранилище FASModelContainer">
+          <EntitySet Name="AOI_Statistics" EntityType="Self.AOI_Statistics" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EP_Email" EntityType="Self.EP_Email" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAS_Models" EntityType="Self.FAS_Models" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="M_Repair_Table" EntityType="Self.M_Repair_Table" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -53,10 +89,46 @@
           <Property Name="ModelID" Type="Int16" />
           <Property Name="Scrap" Type="Boolean" />
           <Property Name="UserID" Type="Int16" />
+          <Property Name="LOTID" Type="Int32" />
         </EntityType>
         <EntityContainer Name="FASEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="M_Repair_Table" EntityType="Self.M_Repair_Table" />
+          <EntitySet Name="FAS_Models" EntityType="FASModel.FAS_Models" />
+          <EntitySet Name="AOI_Statistics" EntityType="FASModel.AOI_Statistics" />
+          <EntitySet Name="EP_Email" EntityType="FASModel.EP_Email" />
         </EntityContainer>
+        <EntityType Name="FAS_Models">
+          <Key>
+            <PropertyRef Name="ModelID" />
+          </Key>
+          <Property Name="ModelID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModelTypeID" Type="Byte" Nullable="false" />
+          <Property Name="DelaySetting" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TopMask" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BotMask" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="lenHDCP" Type="Int16" />
+          <Property Name="ChipCode" Type="Int16" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="IDQuality" Type="Int32" />
+        </EntityType>
+        <EntityType Name="AOI_Statistics">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EP_Email">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NameAdress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -66,6 +138,7 @@
           <EntitySetMapping Name="M_Repair_Table">
             <EntityTypeMapping TypeName="FASModel.M_Repair_Table">
               <MappingFragment StoreEntitySet="M_Repair_Table">
+                <ScalarProperty Name="LOTID" ColumnName="LOTID" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Barcode" ColumnName="Barcode" />
                 <ScalarProperty Name="RapairDate" ColumnName="RapairDate" />
@@ -82,6 +155,41 @@
                 <ScalarProperty Name="ModelID" ColumnName="ModelID" />
                 <ScalarProperty Name="Scrap" ColumnName="Scrap" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAS_Models">
+            <EntityTypeMapping TypeName="FASModel.FAS_Models">
+              <MappingFragment StoreEntitySet="FAS_Models">
+                <ScalarProperty Name="IDQuality" ColumnName="IDQuality" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="ChipCode" ColumnName="ChipCode" />
+                <ScalarProperty Name="lenHDCP" ColumnName="lenHDCP" />
+                <ScalarProperty Name="BotMask" ColumnName="BotMask" />
+                <ScalarProperty Name="TopMask" ColumnName="TopMask" />
+                <ScalarProperty Name="DelaySetting" ColumnName="DelaySetting" />
+                <ScalarProperty Name="ModelTypeID" ColumnName="ModelTypeID" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AOI_Statistics">
+            <EntityTypeMapping TypeName="FASModel.AOI_Statistics">
+              <MappingFragment StoreEntitySet="AOI_Statistics">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EP_Email">
+            <EntityTypeMapping TypeName="FASModel.EP_Email">
+              <MappingFragment StoreEntitySet="EP_Email">
+                <ScalarProperty Name="NameAdress" ColumnName="NameAdress" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

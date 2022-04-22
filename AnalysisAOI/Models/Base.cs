@@ -9,7 +9,7 @@ using System.Web;
 
 namespace AnalysisAOI.Models
 {
-    public class Omron
+    public class Base
     {
         static public object SelectStringOmronInteger(string cmd) //Достает с базы ОРАКЛ значение целого числа
         {
@@ -79,7 +79,7 @@ namespace AnalysisAOI.Models
             try
             {
                 //SqlConnection sqlcon = new SqlConnection(@"Data Source=(LocalDb)\MSSQLLocalDB; Initial Catalog= FAS; integrated security=True;");
-                SqlConnection sqlcon = new SqlConnection(@"Data Source=traceability\flat; Initial Catalog= FAS; user id=volodin;password=volodin;");
+                SqlConnection sqlcon = new SqlConnection(@"Data Source=traceability\flat; Initial Catalog= FAS; user id=CTS_SOFT;password=wnc_ghju;");
                 SqlCommand c = new SqlCommand();
                 SqlDataAdapter da = new SqlDataAdapter();
                 DataSet ds = new DataSet();
@@ -103,7 +103,7 @@ namespace AnalysisAOI.Models
         {
 
             //SqlConnection sqlcon = new SqlConnection(@"Data Source=(LocalDb)\MSSQLLocalDB; Initial Catalog= FAS; integrated security=True;");
-            SqlConnection sqlcon = new SqlConnection(@"Data Source=traceability\flat; Initial Catalog= FAS; user id=volodin;password=volodin;");
+            SqlConnection sqlcon = new SqlConnection(@"Data Source=traceability\flat; Initial Catalog= FAS; user id=CTS_SOFT;password=wnc_ghju;");
             SqlCommand c = new SqlCommand();
             SqlDataReader r;
             int k = 0;

@@ -4,9 +4,7 @@ using AnalysisAOI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace AnalysisAOI.Controllers
@@ -25,13 +23,13 @@ namespace AnalysisAOI.Controllers
 
         void RemoveData(string ip)
         {
-            Omron.SelectString($@"use fas delete [FAS].[dbo].[SPY_Table] where [IpAdress] = '{ip}'");
+            Base.SelectString($@"use fas delete [FAS].[dbo].[SPY_Table] where [IpAdress] = '{ip}'");
         }
 
         public ActionResult GetData(string date_st, string date_end, string time_st, string time_end)
         {
             string ip = HttpContext.Request.UserHostAddress;
-            var T = ParseDate(date_st,date_end,time_st,time_end);
+            var T = ParseDate(date_st, date_end, time_st, time_end);
 
             if (T == null)
             {
@@ -42,7 +40,7 @@ namespace AnalysisAOI.Controllers
             //Выгрузка из OMRON
             RemoveData(ip);
             Info info = new Info();
-           var result =  Omron.LoadGridOmron($@"SELECT L.SYS_MACHINE_NAME, ONE.BOARD_BARCODE, MOD.PG_NAME
+            var result = Base.LoadGridOmron($@"SELECT L.SYS_MACHINE_NAME, ONE.BOARD_BARCODE, MOD.PG_NAME
                 FROM PRISM.INSP_RESULT_SUMMARY_INFO one  LEFT JOIN COMP_RESULT_INFO two ON one.INSP_ID = two.INSP_ID
                 LEFT JOIN COMP_INFO three ON one.PG_ITEM_ID = three.PG_ITEM_ID AND two.COMP_ID = three.COMP_ID  
                 LEFT JOIN USR_INSP_RESULT_NAME six ON one.INSP_RESULT_CODE = six.USR_INSP_RESULT_CODE 
@@ -57,12 +55,12 @@ namespace AnalysisAOI.Controllers
             //===============================================================================================
             //Общий SPY
 
-            
-            var countrem = Omron.SelectString($@"use FAS select  count( distinct barcode) barcode from M_Repair_Table r
+
+            var countrem = Base.SelectString($@"use FAS select  count( distinct barcode) barcode from M_Repair_Table r
                                       where Barcode in (SELECT barcode
                                       FROM [FAS].[dbo].[SPY_Table]) and RepairCode is not null and RepairCode != 'Y'");
 
-            var countAOI = Omron.SelectString($@"use fas SELECT count(distinct(barcode))  FROM [FAS].[dbo].[SPY_Table]");
+            var countAOI = Base.SelectString($@"use fas SELECT count(distinct(barcode))  FROM [FAS].[dbo].[SPY_Table]");
 
             //float z = 0;
             //if (!float.TryParse(countrem, out float k) || !float.TryParse(countAOI, out z))
@@ -75,7 +73,7 @@ namespace AnalysisAOI.Controllers
             //===============================================================================================
             //SPY по линии
 
-            var LineSpy = Omron.Loadgrid($@"use fas SELECT distinct linename Line, count(linename) PassAOI, count(rep.barcode) RemFAS
+            var LineSpy = Base.Loadgrid($@"use fas SELECT distinct linename Line, count(linename) PassAOI, count(rep.barcode) RemFAS
                                               FROM [FAS].[dbo].[SPY_Table] s
                                               left join M_Repair_Table rep on s.barcode = rep.Barcode
                                               where IpAdress = '{ip}'
@@ -85,7 +83,7 @@ namespace AnalysisAOI.Controllers
 
             //===============================================================================================
             //Топ по дефектам
-            var TopDefects = Omron.Loadgrid($@"use fas select distinct [Линия], [КодДефекта], count(1)'Кол_во'
+            var TopDefects = Base.Loadgrid($@"use fas select distinct [Линия], [КодДефекта], count(1)'Кол_во'
                                                 from( SELECT  linename 'Линия'
                                                 ,(select concat(r.NameCode,'-',r.DescriptionCode) from FAS_RepairCode r where r.NameCode = rep.RepairCode) 'КодРемонта'
                                                 ,(select concat(d.NameCode,'-',d.DescriptionCode) from FAS_DefectCode d where d.NameCode = rep.DefectCode) 'КодДефекта'
@@ -99,7 +97,7 @@ namespace AnalysisAOI.Controllers
 
             //===============================================================================================
             //Топ по ремонтам
-            var TopRepair = Omron.Loadgrid($@"use fas select distinct Линия, КодРемонта, count(1)Кол_во
+            var TopRepair = Base.Loadgrid($@"use fas select distinct Линия, КодРемонта, count(1)Кол_во
                                                 from( SELECT   linename Линия
                                                 ,(select concat(r.NameCode,'-',r.DescriptionCode) from FAS_RepairCode r where r.NameCode = rep.RepairCode) КодРемонта
                                                 ,(select concat(d.NameCode,'-',d.DescriptionCode) from FAS_DefectCode d where d.NameCode = rep.DefectCode) КодДефекта
@@ -114,7 +112,7 @@ namespace AnalysisAOI.Controllers
 
             //===============================================================================================
             //ТОП по позициям
-            var TOPCIR = Omron.Loadgrid($@"use fas 
+            var TOPCIR = Base.Loadgrid($@"use fas 
                                             select Линия,Позиция,Кол_во from (select distinct Линия, Позиция, count(1)Кол_во, ROW_NUMBER() over( partition by Линия order by Линия,count(1) desc) num  
                                             from( SELECT 
                                              linename Линия
@@ -132,7 +130,7 @@ namespace AnalysisAOI.Controllers
             //===============================================================================================
             //ТОП по дефектам и позициям
 
-            var TOPCIRDefects = Omron.Loadgrid($@"use fas 
+            var TOPCIRDefects = Base.Loadgrid($@"use fas 
                                             select Линия,Позиция,КодДефекта,Кол_во from (select distinct Линия, Позиция, КодДефекта, count(1)Кол_во, ROW_NUMBER() over( partition by Линия order by Линия,count(1) desc) num  
                                             from( SELECT 
                                              linename Линия
@@ -150,7 +148,7 @@ namespace AnalysisAOI.Controllers
             var _topcirdefects = GetCIRDefects(TOPCIRDefects);
             //===============================================================================================
 
-            var TOPCIRDefectsRepair = Omron.Loadgrid($@"use fas select Линия,Позиция, КодДефекта,КодРемонта , Кол_во from 
+            var TOPCIRDefectsRepair = Base.Loadgrid($@"use fas select Линия,Позиция, КодДефекта,КодРемонта , Кол_во from 
                                             (select distinct Линия, Позиция,КодДефекта , КодРемонта ,count(1)Кол_во, ROW_NUMBER() over( partition by Линия order by Линия,count(1) desc) num  
 
                                             from( SELECT 
@@ -312,16 +310,16 @@ namespace AnalysisAOI.Controllers
             var date = DateTime.UtcNow.AddHours(2).ToString("yyyy-MM-dd HH:mm:ss");
             string ip = HttpContext.Request.UserHostAddress;
 
-           var re = Parallel.For(0, data.Tables[0].Rows.Count, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount }, x =>
-            {
-                var p = data.Tables[0].Rows[x];
-                var i = p.ItemArray;
-                Omron.SelectString($@" use FAS insert into [FAS].[dbo].[SPY_Table]
+            var re = Parallel.For(0, data.Tables[0].Rows.Count, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount }, x =>
+             {
+                 var p = data.Tables[0].Rows[x];
+                 var i = p.ItemArray;
+                 Base.SelectString($@" use FAS insert into [FAS].[dbo].[SPY_Table]
                                   (Barcode,LineName,ModelName,DateLoad,[IpAdress]) values
                                   ('{i[1]}','{i[0]}','{i[2]}','{date}','{ip}')");
 
-            });
-            
+             });
+
         }
 
         TimesOracle ParseDate(string date_st, string date_end, string time_st, string time_end)

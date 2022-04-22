@@ -30,5 +30,6 @@ namespace AnalysisAOI.Models
         public Nullable<short> ModelID { get; set; }
         public Nullable<bool> Scrap { get; set; }
         public Nullable<short> UserID { get; set; }
+        public Nullable<int> LOTID { get; set; }
     }
 }
